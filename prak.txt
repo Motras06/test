@@ -55,7 +55,7 @@ FROM books;
 SELECT *
 FROM users 
 JOIN orders ON user_ID = o_user_ID
-WHERE u_status = 'active' AND o_time > '2007-10-01';
+WHERE u_status = 'active' AND o_time = '2007-10-01';
 
 ЗАДАЧА 6
 1. Вывести все данные о книгах под авторством "Oppel E.", "Tannenbaum E." использовать конструкцию IN.
@@ -473,5 +473,6 @@ WHERE b_price > (
     WHERE b_cat_ID = b_cat_ID
 )
 ORDER BY cat_ID, b_price DESC;
+
 
 
