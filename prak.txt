@@ -9,6 +9,7 @@ WHERE user_ID IN (SELECT DISTINCT o_user_ID FROM orders);
 SELECT * 
 FROM users
 WHERE user_ID NOT IN (SELECT DISTINCT o_user_ID FROM orders);
+
 ЗАДАЧА 2
 1. Вывести все книги в порядке возрастания года их издания.
 2. Вывести все книги, на которые нет заказов (right join, is null).
@@ -19,7 +20,6 @@ ORDER BY b_year ASC;
 SELECT * FROM orders
 RIGHT JOIN books ON book_ID = o_book_ID
 WHERE order_ID IS NULL;
-
 
 ЗАДАЧА 3
 1. Вывести всех пользователей, когда-либо заказывающих книги (использовать JOIN).
@@ -44,6 +44,7 @@ LEFT JOIN books ON catalogs.cat_ID = books.b_cat_ID;
 SELECT * 
 FROM books
 WHERE b_author LIKE 'B%';
+
 ЗАДАЧА 5
 1. Вывести сколько всего экземпляров книг зарегистрированы в БД.
 2. Вывести всех пользователей в статусе "active" и оформивших заказ 01.10.2019
@@ -55,6 +56,7 @@ SELECT *
 FROM users 
 JOIN orders ON user_ID = o_user_ID
 WHERE u_status = 'active' AND o_time > '2007-10-01';
+
 ЗАДАЧА 6
 1. Вывести все данные о книгах под авторством "Oppel E.", "Tannenbaum E." использовать конструкцию IN.
 2. Вывести все заказы, оформленные в марте 2017 года (вместо o_user o_book выводить наименования).
@@ -144,6 +146,7 @@ LEFT JOIN orders o ON user_ID = o_user_ID
 GROUP BY user_ID
 ORDER BY order_count DESC
 LIMIT 1;
+
 ЗАДАЧА 12
 1.Вывести максимальную и минимальную цену книг. 
 2 Вывести пользователей, которые заказали хотя бы одну книгу каталога «Programming>>
@@ -178,7 +181,7 @@ JOIN (
     LIMIT 1
 ) AS best_customer ON user_ID = best_customer.o_user_ID;
 
-ЗАДАЧА14
+ЗАДАЧА 14
 1.Вывести названия и цены книг для каталога «Programming».
 2. Вывести пользователей,сделавших менее двух заказов.
 Задание 1
@@ -256,6 +259,7 @@ WHERE user_ID NOT IN (
     JOIN books  ON o_book_ID = book_ID
     WHERE b_cat_ID = (SELECT cat_ID FROM catalogs WHERE cat_name = 'Multimedia')
 );
+
 ЗАДАЧА 18
 1.Вывести пользователей, которые заказали в 2017 году больше 3 книг
 2.Вывести все книги, цена которых превышает среднюю цену каждого из каталогов
@@ -268,7 +272,6 @@ WHERE YEAR(o_time) = 2009
 GROUP BY user_ID
 ORDER BY total_spent DESC
 LIMIT 3;
-
 Задание 2
 SELECT users.*
 FROM users 
@@ -312,6 +315,7 @@ JOIN orders ON user_ID = o_user_ID
 GROUP BY user_ID, u_name, u_patronymic, u_surname
 HAVING books_ordered > (SELECT COUNT(order_ID) FROM users JOIN orders ON user_ID = o_user_ID WHERE u_surname = 'Ivanov')
 ORDER BY books_ordered DESC;
+
 ЗАДАЧА 21
 1.Вывести пользователей, которые заказали в 2018 году книг на сумму более 500 р.
 2.Вывести пользователей. которые сделали в 2019 году больше 2 заказов.
@@ -346,6 +350,7 @@ FROM users
 JOIN orders  ON user_ID = o_user_ID
 WHERE o_user_ID = '3'
 GROUP BY user_ID;
+
 ЗАДАЧА 23
 1.Установите переменной «с» значение даты «2019-12-01». Выведите разницу количества дней между текущей датой и переменной «с». Решите используя для установки значения оператор
 SELECT.
@@ -357,11 +362,11 @@ SELECT DATEDIFF(NOW(), @c) AS days_difference;
 SELECT *
 FROM books
 WHERE b_year = (SELECT MIN(b_year) FROM books);
-
 -- Books with the latest publication year
 SELECT *
 FROM books
 WHERE b_year = (SELECT MAX(b_year) FROM books);
+
 ЗАДАЧА 24
 1.Установите переменной «с» значение даты «2020-10-01». Выведите разницу количества дней между текущей датой и переменной «с». Решите используя для установки значения оператор SET.
 2.Вывести максимальную и минимальную цены товарных позиции (книг), присваивая им
@@ -374,6 +379,7 @@ SELECT
   MAX(b_price) AS maximum,
   MIN(b_price) AS minimum
 FROM books;
+
 ЗАДАЧА 25
 1.Вывести количество записей, соответствующих каждому из уникальных значений в таблице пользователей (o_user_ID).
 2.Выведите каталог, к которому принадлежит товарная позиция из заказа, сделанного 10 февраля 2009 г. в 09:40:20.
@@ -387,6 +393,7 @@ FROM catalogs
 JOIN books ON cat_ID = b_cat_ID
 JOIN orders  ON book_ID = o_book_ID
 WHERE o_time = '2009-03-10 18:20:00';
+
 ЗАДАЧА 26
 1.Выведите все заказы книги с любым заданным номером книги (o_book _ID)
 2.Вывести дату(ы), в которую было сделано минимальное количество заказов.
@@ -400,6 +407,7 @@ SELECT DATE(o_time) AS order_date, COUNT(order_ID) AS order_count
 FROM orders 
 GROUP BY order_date
 HAVING order_count = (SELECT MIN(order_count) FROM (SELECT DATE(o_time) AS order_date, COUNT(order_ID) AS order_count FROM orders GROUP BY order_date) AS order_counts);
+
 ЗАДАЧА 27
 1 Вывести самую «не популярную» книгу (количество заказов книги минимально).  
 2 Вывести самого «худшего» клиента (заказавшего минимальное количество книг).
@@ -447,6 +455,7 @@ FROM users
 LEFT JOIN orders  ON user_ID = o_user_ID
 GROUP BY user_ID
 ORDER BY order_count DESC;
+
 ЗАДАЧА 30
 1.Выведите имена и фамилии покупателей, совершивших хотя бы одну покупку
 2.Выведите все товарные позиции, цена которых превышает среднюю цену книг в каждом из каталогов
@@ -464,4 +473,5 @@ WHERE b_price > (
     WHERE b_cat_ID = b_cat_ID
 )
 ORDER BY cat_ID, b_price DESC;
+
 
