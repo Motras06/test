@@ -82,7 +82,7 @@ WHERE b_price > 100 AND b_year = 2009;
 SELECT cat_name, COUNT(order_ID) AS order_count
 FROM catalogs
 JOIN books ON cat_ID = b_cat_ID
-JOIN orders ON book_ID = o_book_ID
+LEFT JOIN orders ON book_ID = o_book_ID
 GROUP BY cat_ID;
 
 ЗАДАЧА 8
@@ -473,6 +473,7 @@ WHERE b_price > (
     WHERE b_cat_ID = b_cat_ID
 )
 ORDER BY cat_ID, b_price DESC;
+
 
 
 
